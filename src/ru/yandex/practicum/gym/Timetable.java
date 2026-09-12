@@ -1,8 +1,6 @@
 package ru.yandex.practicum.gym;
 
-import ru.yandex.practicum.gym.model.DayOfWeek;
-import ru.yandex.practicum.gym.model.TimeOfDay;
-import ru.yandex.practicum.gym.model.TrainingSession;
+import ru.yandex.practicum.gym.model.*;
 
 import java.util.*;
 
@@ -36,11 +34,35 @@ public class Timetable {
     }
 
     public List<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
-        //как реализовать, тоже непонятно, но сложность должна быть О(1)
         if (!timetable.containsKey(dayOfWeek)) {
             return null;
         }
         return timetable.get(dayOfWeek).get(timeOfDay);
+    }
+
+    public List<CounterOfTrainings> getCountByCoaches() {
+        Map<Coach, Integer> countByCoaches = new HashMap<>();
+        for (TreeMap<TimeOfDay, ArrayList<TrainingSession>> dayTrainingSessions : timetable.values()) {
+            for (ArrayList<TrainingSession> timeTrainingSessions : dayTrainingSessions.values()) {
+                for (TrainingSession ts : timeTrainingSessions) {
+                    Coach coach = ts.getCoach();
+                    if (countByCoaches.containsKey(coach)) {
+                        countByCoaches.compute(coach, (c, i) -> i + 1);
+                    } else {
+                        countByCoaches.put(coach, 1);
+                    }
+                }
+            }
+        }
+
+        ArrayList<CounterOfTrainings> counterOfTrainings = new ArrayList<>(countByCoaches.size());
+        for (Map.Entry<Coach, Integer> entry : countByCoaches.entrySet()) {
+            counterOfTrainings.add(new CounterOfTrainings(entry.getKey(), entry.getValue()));
+        }
+        counterOfTrainings.sort(Collections.reverseOrder());
+        return counterOfTrainings;
+
+
     }
 
 
