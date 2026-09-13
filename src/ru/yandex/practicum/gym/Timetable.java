@@ -61,9 +61,5 @@ public class Timetable {
         }
         counterOfTrainings.sort(Collections.reverseOrder());
         return counterOfTrainings;
-
-
     }
-
-
 }

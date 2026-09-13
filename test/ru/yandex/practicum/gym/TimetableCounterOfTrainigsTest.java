@@ -27,7 +27,29 @@ public class TimetableCounterOfTrainigsTest {
     }
 
     @Test
-    void testGetCounterOfTrainingsForCoachOneDayDiffTime() {
+    void testGetEmptyCounterOfTrainings() {
+        List<CounterOfTrainings> actualCounterOfTrainings = timetable.getCountByCoaches();
+        List<CounterOfTrainings> expectedCounterOfTrainings = new ArrayList<>();
+        assertIterableEquals(expectedCounterOfTrainings, actualCounterOfTrainings);
+    }
+
+    @Test
+    void testGetCounterOfTrainingsForOneCoach() {
+        TrainingSession mondayTrainingSessionCoach_1_13_00 = new TrainingSession(GROUP_ADULT, COACH_1, MONDAY, TIME_13_00);
+        TrainingSession thursdayTrainingSessionCoach_1_14_00 = new TrainingSession(GROUP_CHILD, COACH_1, THURSDAY, TIME_14_00);
+        TrainingSession saturdayTrainingSessionCoach_1_20_00 = new TrainingSession(GROUP_ADULT, COACH_1, SATURDAY, TIME_20_00);
+        timetable.addNewTrainingSession(mondayTrainingSessionCoach_1_13_00);
+        timetable.addNewTrainingSession(thursdayTrainingSessionCoach_1_14_00);
+        timetable.addNewTrainingSession(saturdayTrainingSessionCoach_1_20_00);
+
+        List<CounterOfTrainings> actualCounterOfTrainings = timetable.getCountByCoaches();
+        List<CounterOfTrainings> expectedCounterOfTrainings = List.of(new CounterOfTrainings(COACH_1, 3));
+
+        assertIterableEquals(expectedCounterOfTrainings, actualCounterOfTrainings);
+    }
+
+    @Test
+    void testGetCounterOfTrainingsForTwoCoachesOneDayDiffTime() {
         TrainingSession thursdayTrainingSessionCoach_1_13_00 = new TrainingSession(GROUP_ADULT, COACH_1, THURSDAY, TIME_13_00);
         TrainingSession thursdayTrainingSessionCoach_2_14_00 = new TrainingSession(GROUP_CHILD, COACH_2, THURSDAY, TIME_14_00);
         TrainingSession thursdayTrainingSessionCoach_2_20_00 = new TrainingSession(GROUP_ADULT, COACH_2, THURSDAY, TIME_20_00);
@@ -43,7 +65,7 @@ public class TimetableCounterOfTrainigsTest {
     }
 
     @Test
-    void testGetCounterOfTrainingsForCoachOneDayOneTime() {
+    void testGetCounterOfTrainingsForTwoCoachesOneDayOneTime() {
         TrainingSession thursdayTrainingSessionCoach_1_13_00 = new TrainingSession(GROUP_ADULT, COACH_1, THURSDAY, TIME_13_00);
         TrainingSession thursdayTrainingSessionCoach_2_13_00 = new TrainingSession(GROUP_CHILD, COACH_2, THURSDAY, TIME_13_00);
         TrainingSession thursdayTrainingSessionCoach_1_14_00 = new TrainingSession(GROUP_CHILD, COACH_1, THURSDAY, TIME_14_00);
@@ -65,7 +87,7 @@ public class TimetableCounterOfTrainigsTest {
     }
 
     @Test
-    void testGetCounterOfTrainingsForCoachDiffDayAndTime() {
+    void testGetCounterOfTrainingsForTwoCoachesDiffDayAndTime() {
         TrainingSession mondayTrainingSessionCoach_1_13_00 = new TrainingSession(GROUP_ADULT, COACH_1, MONDAY, TIME_13_00);
         TrainingSession saturdayTrainingSessionCoach_1_14_00 = new TrainingSession(GROUP_CHILD, COACH_1, SATURDAY, TIME_14_00);
         TrainingSession fridayTrainingSessionCoach_1_10_00 = new TrainingSession(GROUP_ADULT, COACH_2, FRIDAY, TIME_10_00);
