@@ -1,13 +1,13 @@
-package ru.yandex.practicum.gym;
+package ru.yandex.practicum.gym.model;
 
 import java.util.Objects;
 
 public class TimeOfDay implements Comparable<TimeOfDay> {
 
     //часы (от 0 до 23)
-    private int hours;
+    private final int hours;
     //минуты (от 0 до 59)
-    private int minutes;
+    private final int minutes;
 
     public TimeOfDay(int hours, int minutes) {
         this.hours = hours;
@@ -22,7 +22,6 @@ public class TimeOfDay implements Comparable<TimeOfDay> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimeOfDay timeOfDay = (TimeOfDay) o;
         return hours == timeOfDay.hours && minutes == timeOfDay.minutes;
